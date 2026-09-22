@@ -1,0 +1,1 @@
+{% extends 'base.html' %}{% block content %}<div class="empty-state"><h1>Access denied</h1><p>You do not have permission to view that resource.</p><a class="btn btn-primary" href="{{ url_for('main.dashboard') if current_user.is_authenticated else url_for('main.index') }}">Go back safely</a></div>{% endblock %}
