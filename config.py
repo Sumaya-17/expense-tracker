@@ -11,7 +11,15 @@ class Config:
     SECRET_KEY = os.getenv("SECRET_KEY", "development-only-change-me")
     SQLALCHEMY_DATABASE_URI = os.getenv(
         "DATABASE_URL", f"sqlite:///{BASE_DIR / 'instance' / 'expense_tracker.db'}"
-    ).replace("postgres://", "postgresql://", 1)
+    )
+    if SQLALCHEMY_DATABASE_URI.startswith("postgres://"):
+        SQLALCHEMY_DATABASE_URI = SQLALCHEMY_DATABASE_URI.replace(
+            "postgres://", "postgresql+psycopg://", 1
+        )
+    elif SQLALCHEMY_DATABASE_URI.startswith("postgresql://"):
+        SQLALCHEMY_DATABASE_URI = SQLALCHEMY_DATABASE_URI.replace(
+            "postgresql://", "postgresql+psycopg://", 1
+        )
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SESSION_COOKIE_HTTPONLY = True
     SESSION_COOKIE_SAMESITE = "Lax"
